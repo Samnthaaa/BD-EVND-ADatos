@@ -1,0 +1,1267 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/9/2025 5:01:34 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-JHPBV9A"
+  DTS:CreatorName="DESKTOP-JHPBV9A\hdezs"
+  DTS:DTSID="{E517DF55-7737-4DEE-A46E-1491CD75BCB7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="3082"
+  DTS:ObjectName="02 Dim empelado"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{1FD01454-267A-4B2C-ADF8-7675526556B6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-JHPBV9A.stage_northwind]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A3005FF9-C70E-4DC3-806A-15B10869BC24}"
+      DTS:ObjectName="DESKTOP-JHPBV9A.stage_northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=DESKTOP-JHPBV9A;Initial Catalog=stage_northwind;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-02 Dim empelado-{A3005FF9-C70E-4DC3-806A-15B10869BC24}DESKTOP-JHPBV9A.stage_northwind;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{995B991B-166E-4210-9886-43491D81860C}"
+      DTS:ObjectName="LocalHost.datamart_northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=datamart_northwind;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-02 Dim empelado-{995B991B-166E-4210-9886-43491D81860C}LocalHost.datamart_northwind;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D48B400D-AB61-4D0B-B603-CA18476562B0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input].Columns[empleado_codigoBKey]"
+                      cachedDataType="i4"
+                      cachedName="empleado_codigoBKey"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_codigoBKey]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[New_EMPLEADOS]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="New_EMPLEADOS"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_codigoBKey]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(empleado_codigoBKey)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\DIM_EMPLEADO"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="DIM_EMPLEADO"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[dim_empleado]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\DIM_EMPLEADO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_Skey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_Skey]"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_Skey]"
+                      name="empleado_Skey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_codigoBKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_codigoBKey]"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_codigoBKey]"
+                      name="empleado_codigoBKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_NombreCompleto]"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_NombreCompleto]"
+                      name="empleado_NombreCompleto"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_Skey]"
+                      dataType="i4"
+                      name="empleado_Skey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_codigoBKey]"
+                      dataType="i4"
+                      name="empleado_codigoBKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[empleado_NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="empleado_NombreCompleto" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_Skey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_Skey]"
+                      name="empleado_Skey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_codigoBKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_codigoBKey]"
+                      name="empleado_codigoBKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[empleado_NombreCompleto]"
+                      name="empleado_NombreCompleto" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="LEFT JOIN STAGE_EMPLEADO"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input].Columns[Empleadoid]"
+                      cachedDataType="i4"
+                      cachedName="Empleadoid"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[Empleadoid]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input].Columns[NombreCompleto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="201"
+                      cachedName="NombreCompleto"
+                      lineageId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[NombreCompleto]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input].Columns[empleado_codigoBKey]"
+                      cachedDataType="i4"
+                      cachedName="empleado_codigoBKey"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_codigoBKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input].Columns[empleado_NombreCompleto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="empleado_NombreCompleto"
+                      lineageId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_NombreCompleto]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[Empleadoid]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[Empleadoid]"
+                      name="Empleadoid"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input].Columns[Empleadoid]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="201"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[NombreCompleto]"
+                      name="NombreCompleto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input].Columns[NombreCompleto]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_codigoBKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_codigoBKey]"
+                      name="empleado_codigoBKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input].Columns[empleado_codigoBKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_NombreCompleto]"
+                      name="empleado_NombreCompleto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input].Columns[empleado_NombreCompleto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\ORDENAR_EMPLEADO"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="ORDENAR_EMPLEADO"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Inputs[Sort Input].Columns[empleado_Skey]"
+                      cachedDataType="i4"
+                      cachedName="empleado_Skey"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_Skey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Inputs[Sort Input].Columns[empleado_codigoBKey]"
+                      cachedDataType="i4"
+                      cachedName="empleado_codigoBKey"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_codigoBKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Inputs[Sort Input].Columns[empleado_NombreCompleto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="empleado_NombreCompleto"
+                      lineageId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_NombreCompleto]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_Skey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_Skey]"
+                      name="empleado_Skey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_Skey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_codigoBKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_codigoBKey]"
+                      name="empleado_codigoBKey"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_codigoBKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output].Columns[empleado_NombreCompleto]"
+                      name="empleado_NombreCompleto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output].Columns[empleado_NombreCompleto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\ORDENAR_STAGE"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="ORDENAR_STAGE"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\ORDENAR_STAGE.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\ORDENAR_STAGE.Inputs[Sort Input].Columns[Empleadoid]"
+                      cachedDataType="i4"
+                      cachedName="Empleadoid"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[Empleadoid]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\ORDENAR_STAGE.Inputs[Sort Input].Columns[NombreCompleto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="201"
+                      cachedName="NombreCompleto"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[NombreCompleto]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[Empleadoid]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[Empleadoid]"
+                      name="Empleadoid"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[Empleadoid]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="201"
+                      lineageId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output].Columns[NombreCompleto]"
+                      name="NombreCompleto">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[NombreCompleto]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\STAGE_EMPLEADO"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="STAGE_EMPLEADO"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT se.Empleadoid, CONCAT(se.nombre, ' ' , se.apellido ) AS 'NombreCompleto'
+FROM stage_northwind.dbo.Empleado as se</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\STAGE_EMPLEADO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-JHPBV9A.stage_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-JHPBV9A.stage_northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[Empleadoid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[Empleadoid]"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[Empleadoid]"
+                      name="Empleadoid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[NombreCompleto]"
+                      length="201"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].Columns[NombreCompleto]"
+                      name="NombreCompleto"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[Empleadoid]"
+                      dataType="i4"
+                      name="Empleadoid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output].ExternalColumns[NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="201"
+                      name="NombreCompleto" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[Empleadoid]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[Empleadoid]"
+                      name="Empleadoid" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[NombreCompleto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="201"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[NombreCompleto]"
+                      name="NombreCompleto" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\TABLA DIM_EMPLEADO"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="TABLA DIM_EMPLEADO"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Empleado]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-JHPBV9A.stage_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-JHPBV9A.stage_northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].Columns[empleado_NombreCompleto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="empleado_NombreCompleto"
+                      externalMetadataColumnId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[nombre]"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_NombreCompleto]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].Columns[empleado_codigoBKey]"
+                      cachedDataType="i4"
+                      cachedName="empleado_codigoBKey"
+                      externalMetadataColumnId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[Empleadoid]"
+                      lineageId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output].Columns[empleado_codigoBKey]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[Empleadoid]"
+                      dataType="i4"
+                      name="Empleadoid" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[nombre]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="nombre" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[apellido]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="apellido" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[fecha_Contratacion]"
+                      dataType="dbDate"
+                      name="fecha_Contratacion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Merge Join Output]"
+              endId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+              name="Merge Join Output"
+              startId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[New_EMPLEADOS]"
+              endId="Package\Data Flow Task\TABLA DIM_EMPLEADO.Inputs[OLE DB Destination Input]"
+              name="New_EMPLEADOS"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[New_EMPLEADOS]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\ORDENAR_STAGE.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\STAGE_EMPLEADO.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+              endId="Package\Data Flow Task\ORDENAR_EMPLEADO.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\DIM_EMPLEADO.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Sort Output]"
+              endId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Data Flow Task\ORDENAR_STAGE.Outputs[Sort Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Sort Output1]"
+              endId="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Data Flow Task\ORDENAR_EMPLEADO.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="153.333333333334,42.6666666666667"
+          Id="Package\Data Flow Task"
+          TopLeft="194.999991282821,116.31578819656" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="181.333333333334,42.6666666666667"
+          Id="Package\Data Flow Task\STAGE_EMPLEADO"
+          TopLeft="84.3749962281437,88.2631569256248" />
+        <NodeLayout
+          Size="164,42.6666666666667"
+          Id="Package\Data Flow Task\DIM_EMPLEADO"
+          TopLeft="314.374985946343,89.6315779632314" />
+        <NodeLayout
+          Size="174.666666666667,42.6666666666667"
+          Id="Package\Data Flow Task\ORDENAR_STAGE"
+          TopLeft="126.249994356185,177.894734888856" />
+        <NodeLayout
+          Size="198.666666666667,42.6666666666667"
+          Id="Package\Data Flow Task\ORDENAR_EMPLEADO"
+          TopLeft="331.874985164032,181.999998001676" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="175.04166289481,130.929823592291">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="38.5416647947083,46.9649112965648"
+              Start="0,0"
+              End="38.5416647947083,39.4649112965648">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.4824556482824" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.4824556482824"
+                    Point2="0,23.4824556482824"
+                    Point3="4,23.4824556482824" />
+                  <mssgle:LineSegment
+                    End="34.5416647947083,23.4824556482824" />
+                  <mssgle:CubicBezierSegment
+                    Point1="34.5416647947083,23.4824556482824"
+                    Point2="38.5416647947083,23.4824556482824"
+                    Point3="38.5416647947083,27.4824556482824" />
+                  <mssgle:LineSegment
+                    End="38.5416647947083,39.4649112965648" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output1]"
+          TopLeft="396.374985946343,132.298244629898">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.8333325510225,49.701753371778"
+              Start="0,0"
+              End="34.8333325510225,42.201753371778">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.850876685889" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.850876685889"
+                    Point2="0,24.850876685889"
+                    Point3="4,24.850876685889" />
+                  <mssgle:LineSegment
+                    End="30.8333325510225,24.850876685889" />
+                  <mssgle:CubicBezierSegment
+                    Point1="30.8333325510225,24.850876685889"
+                    Point2="34.8333325510225,24.850876685889"
+                    Point3="34.8333325510225,28.850876685889" />
+                  <mssgle:LineSegment
+                    End="34.8333325510225,42.201753371778" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="237.333333333334,42.6666666666667"
+          Id="Package\Data Flow Task\LEFT JOIN STAGE_EMPLEADO"
+          TopLeft="235.624989466742,257.947365588841" />
+        <NodeLayout
+          Size="157.333333333334,42.6666666666667"
+          Id="Package\Data Flow Task\Conditional Split"
+          TopLeft="264.374988181517,350.210523370891" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Sort Output]"
+          TopLeft="213.583327689519,220.561401555523">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="102.486106221668,37.3859640333186"
+              Start="0,0"
+              End="102.486106221668,29.8859640333186">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2813669573573" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.2813669573573"
+                    Point2="0,22.2813669573573"
+                    Point3="4,22.2813669573573" />
+                  <mssgle:LineSegment
+                    End="98.4861062216677,22.2813669573573" />
+                  <mssgle:CubicBezierSegment
+                    Point1="98.4861062216677,22.2813669573573"
+                    Point2="102.486106221668,22.2813669573573"
+                    Point3="102.486106221668,26.2813669573573" />
+                  <mssgle:LineSegment
+                    End="102.486106221668,29.8859640333186" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Sort Output1]"
+          TopLeft="431.208318497365,224.666664668343">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-38.6944401417345,33.2807009204988"
+              Start="0,0"
+              End="-38.6944401417345,25.7807009204988">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.8347034503866" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.8347034503866"
+                    Point2="0,19.8347034503866"
+                    Point3="-4,19.8347034503866" />
+                  <mssgle:LineSegment
+                    End="-34.6944401417345,19.8347034503866" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-34.6944401417345,19.8347034503866"
+                    Point2="-38.6944401417345,19.8347034503866"
+                    Point3="-38.6944401417345,23.8347034503866" />
+                  <mssgle:LineSegment
+                    End="-38.6944401417345,25.7807009204988" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Merge Join Output]"
+          TopLeft="354.291656133409,300.614032255508">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-11.250001285225,49.5964911153827"
+              Start="0,0"
+              End="-11.250001285225,42.0964911153827">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7982455576914" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.7982455576914"
+                    Point2="0,24.7982455576914"
+                    Point3="-4,24.7982455576914" />
+                  <mssgle:LineSegment
+                    End="-7.25000128522504,24.7982455576914" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7.25000128522504,24.7982455576914"
+                    Point2="-11.250001285225,24.7982455576914"
+                    Point3="-11.250001285225,28.7982455576914" />
+                  <mssgle:LineSegment
+                    End="-11.250001285225,42.0964911153827" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="200.666666666667,42.6666666666667"
+          Id="Package\Data Flow Task\TABLA DIM_EMPLEADO"
+          TopLeft="259.999988377095,429.140346963182" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[New_EMPLEADOS]"
+          TopLeft="343.041654848184,392.877190037558">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="17.2916668622443,36.2631569256248"
+              Start="0,0"
+              End="17.2916668622443,28.7631569256248">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.1315784628124" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.1315784628124"
+                    Point2="0,18.1315784628124"
+                    Point3="4,18.1315784628124" />
+                  <mssgle:LineSegment
+                    End="13.2916668622443,18.1315784628124" />
+                  <mssgle:CubicBezierSegment
+                    Point1="13.2916668622443,18.1315784628124"
+                    Point2="17.2916668622443,18.1315784628124"
+                    Point3="17.2916668622443,22.1315784628124" />
+                  <mssgle:LineSegment
+                    End="17.2916668622443,28.7631569256248" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-31.6916470376278,23.1315784628124,80.6749609375,10.88671875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\STAGE_EMPLEADO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\DIM_EMPLEADO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\TABLA DIM_EMPLEADO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

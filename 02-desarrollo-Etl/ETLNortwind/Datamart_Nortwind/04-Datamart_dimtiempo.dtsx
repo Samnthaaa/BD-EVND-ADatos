@@ -1,0 +1,2064 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/30/2025 4:02:47 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MSI"
+  DTS:CreatorName="MSI\jeonm"
+  DTS:DTSID="{D774AD6D-9374-41E7-A8C9-2BEAAB9559B7}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="2058"
+  DTS:ObjectName="04-Datamart_dimtiempo"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{FAE5CA1B-E287-4FAB-BD6C-6C862AD0FC3E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9E403097-E75A-4C8D-80C0-8BF386D2F2FD}"
+      DTS:ObjectName="LocalHost.datamart_northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=datamart_northwind;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-04-Datamart_dimtiempo-{9E403097-E75A-4C8D-80C0-8BF386D2F2FD}LocalHost.datamart_northwind;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.stage_northwind]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2C77DD71-473F-46C6-89B9-BDA4AD3EA630}"
+      DTS:ObjectName="LocalHost.stage_northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=stage_northwind;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-04-Datamart_dimtiempo-{2C77DD71-473F-46C6-89B9-BDA4AD3EA630}LocalHost.stage_northwind;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Caraga dim Tiempo"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarea Flujo de datos"
+      DTS:DTSID="{11FE78EE-3342-451B-8763-10F156DA1A09}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Caraga dim Tiempo"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Caraga dim Tiempo\Combinación de mezcla"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Combinación de mezcla;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;1"
+              description="Combina dos flujos de datos ordenados en uno solo mediante la combinación FULL, LEFT o INNER. Se recomienda esta transformación cuando se pueden ordenar los flujos de datos en sus orígenes."
+              name="Combinación de mezcla"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el tipo de combinación que se debe realizar."
+                  name="JoinType"
+                  typeConverter="JoinType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el número de columnas de la clave de ordenación."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si los valores NULL se tratan como valores iguales."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indica la cantidad máxima solicitada de búferes por entrada antes del bloqueo."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla]"
+                  hasSideEffects="true"
+                  name="Entrada izquierda de combinación de mezcla">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_fechaActual]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_anio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_anio"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_anio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_trimestre]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_trimestre"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_trimestre]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_mes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_mes"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_mes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_semana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_semana"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_semana]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_diadeanio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diadeanio"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_diademes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diademes"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diademes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_DiaDeSemana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_DiaDeSemana"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_DiaDeSemana]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla]"
+                  hasSideEffects="true"
+                  name="Entrada derecha de combinación de mezcla">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_fechaActual]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_anio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_anio"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_anio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_trimestre]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_trimestre"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_trimestre]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_mes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_mes"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_mes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_semana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_semana"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_semana]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diadeanio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diadeanio"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diademes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diademes"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diademes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diasemana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diasemana"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diasemana]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla]"
+                  isSorted="true"
+                  name="Salida de combinación de mezcla">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_fechaActual]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_anio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_anio]"
+                      name="tiempo_anio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_anio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_trimestre]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_mes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_mes]"
+                      name="tiempo_mes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_mes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_semana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_semana]"
+                      name="tiempo_semana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_semana]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_diadeanio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diademes]"
+                      name="tiempo_diademes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_diademes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_DiaDeSemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_DiaDeSemana]"
+                      name="tiempo_DiaDeSemana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla].Columns[tiempo_DiaDeSemana]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual_DIMTIEMPO]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual_DIMTIEMPO]"
+                      name="tiempo_fechaActual_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_fechaActual]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_anio_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_anio_DIMTIEMPO]"
+                      name="tiempo_anio_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_anio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_trimestre_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_trimestre_DIMTIEMPO]"
+                      name="tiempo_trimestre_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_trimestre]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_mes_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_mes_DIMTIEMPO]"
+                      name="tiempo_mes_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_mes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_semana_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_semana_DIMTIEMPO]"
+                      name="tiempo_semana_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_semana]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diadeanio_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diadeanio_DIMTIEMPO]"
+                      name="tiempo_diadeanio_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diadeanio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diademes_DIMTIEMPO]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diademes_DIMTIEMPO]"
+                      name="tiempo_diademes_DIMTIEMPO">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diademes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diasemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diasemana]"
+                      name="tiempo_diasemana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="La columna de entrada asociada a esta columna de salida"
+                          name="InputColumnID">#{Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla].Columns[tiempo_diasemana]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\Destino de OLE DB"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destino de OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;4"
+              description="Destino de OLE DB"
+              name="Destino de OLE DB"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowset">[dbo].[dim_tiempo]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica la variable que contiene el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Comando SQL para ejecutar."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica la página de códigos de columna para utilizar cuando la información de página de códigos no está disponible en el origen de datos."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Fuerza el uso del valor de la propiedad DefaultCodePage al describir datos de caracteres."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el modo utilizado para obtener acceso a la base de datos."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si los valores proporcionados para columnas de identidad se van a copiar al destino. Si es False, los valores de las columnas de identidad se generan automáticamente en el destino. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si las columnas que contienen NULL tendrán NULL insertado en el destino. Si es False, las columnas que contienen NULL tendrán sus valores predeterminados insertados en el destino. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica opciones para usar con la carga rápida. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica cuándo se emiten confirmaciones durante la inserción de datos. El valor 0 especifica que se emitirá una confirmación al final de la inserción de datos. Solo se aplica si está activada la carga rápida."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Caraga dim Tiempo\Destino de OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  description="La conexión de tiempo de ejecución OLE DB usada para obtener acceso a la base de datos."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]"
+                  errorOrTruncationOperation="Insertar"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrada de destino de OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_fechaActual]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_anio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_anio"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_anio]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_anio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_trimestre]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_trimestre"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_trimestre]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_mes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_mes"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_mes]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_mes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_semana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_semana"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_semana]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_semana]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_diadeanio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diadeanio"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diadeanio]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_diademes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diademes"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diademes]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_diademes]" />
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].Columns[tiempo_DiaDeSemana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_DiaDeSemana"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diasemana]"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_DiaDeSemana]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_Skey]"
+                      dataType="i4"
+                      name="tiempo_Skey" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      name="tiempo_fechaActual" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_anio]"
+                      dataType="i4"
+                      name="tiempo_anio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      dataType="i4"
+                      name="tiempo_trimestre" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_mes]"
+                      dataType="i4"
+                      name="tiempo_mes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_semana]"
+                      dataType="i4"
+                      name="tiempo_semana" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      dataType="i4"
+                      name="tiempo_diadeanio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diademes]"
+                      dataType="i4"
+                      name="tiempo_diademes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB].ExternalColumns[tiempo_diasemana]"
+                      dataType="i4"
+                      name="tiempo_diasemana" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de destino de OLE DB"
+                  synchronousInputId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Destino de OLE DB.Outputs[Salida de error de destino de OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\dim tiempo"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origen de OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;7"
+              description="Origen de OLE DB"
+              name="dim tiempo"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowset">[dbo].[dim_tiempo]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica la variable que contiene el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Comando SQL para ejecutar."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Variable que contiene el comando SQL para ejecutar."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica la página de códigos de columna para utilizar cuando la información de página de códigos no está disponible en el origen de datos."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Fuerza el uso del valor de la propiedad DefaultCodePage al describir datos de caracteres."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el modo utilizado para obtener acceso a la base de datos."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Asignaciones entre los parámetros del comando SQL y las variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Caraga dim Tiempo\dim tiempo.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.datamart_northwind]"
+                  description="La conexión de tiempo de ejecución OLE DB usada para obtener acceso a la base de datos."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB]"
+                  name="Salida de origen de OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_anio]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]"
+                      name="tiempo_anio"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_mes]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]"
+                      name="tiempo_mes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_semana]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]"
+                      name="tiempo_semana"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diademes]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]"
+                      name="tiempo_diademes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diasemana]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diasemana]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diasemana]"
+                      name="tiempo_diasemana"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_SKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_SKey]"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_SKey]"
+                      name="tiempo_SKey"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      name="tiempo_fechaActual" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_anio]"
+                      dataType="i4"
+                      name="tiempo_anio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      dataType="i4"
+                      name="tiempo_trimestre" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_mes]"
+                      dataType="i4"
+                      name="tiempo_mes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_semana]"
+                      dataType="i4"
+                      name="tiempo_semana" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      dataType="i4"
+                      name="tiempo_diadeanio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diademes]"
+                      dataType="i4"
+                      name="tiempo_diademes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diasemana]"
+                      dataType="i4"
+                      name="tiempo_diasemana" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_SKey]"
+                      dataType="i4"
+                      name="tiempo_SKey" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_SKey]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_SKey]"
+                      name="tiempo_SKey" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_anio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_anio]"
+                      name="tiempo_anio" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_mes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_mes]"
+                      name="tiempo_mes" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_semana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_semana]"
+                      name="tiempo_semana" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diademes]"
+                      name="tiempo_diademes" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diasemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diasemana]"
+                      name="tiempo_diasemana" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="División condicional;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;0"
+              description="Enruta filas de datos a diferentes salidas según el contenido de los datos. Se usan condiciones (expresiones de SSIS) para especificar las filas que se van a enrutar. Por ejemplo, se usa para separar los registros que deben limpiarse de los registros listos para ser cargados o para enrutar solamente un subconjunto de registros."
+              name="FILTAR TIEMPO NUEVO"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional]"
+                  description="Entrada en la transformación División condicional"
+                  name="Entrada de división condicional">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional].Columns[tiempo_fechaActual_DIMTIEMPO]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual_DIMTIEMPO"
+                      lineageId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual_DIMTIEMPO]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[TIEMPO_NUEVO]"
+                  description="Salida 1 de la transformación División condicional"
+                  errorOrTruncationOperation="Cálculo"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="TIEMPO_NUEVO"
+                  synchronousInputId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Especifica la expresión. Esta versión de expresión usa identificadores de linaje en lugar de nombres de columna."
+                      name="Expression">[ISNULL](#{Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla].Columns[tiempo_fechaActual_DIMTIEMPO]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Especifica la versión descriptiva de la expresión. Esta versión de expresión usa nombres de columna."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(tiempo_fechaActual_DIMTIEMPO)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Especifica la posición de la condición en la lista de condiciones que evalúa la transformación. El orden de evaluación es del menor al mayor valor."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida predeterminada de división condicional]"
+                  description="Salida predeterminada de la transformación División condicional"
+                  exclusionGroup="1"
+                  name="Salida predeterminada de división condicional"
+                  synchronousInputId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida de error de división condicional]"
+                  description="Salida de error de la transformación División condicional"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Salida de error de división condicional"
+                  synchronousInputId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida de error de división condicional].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida de error de división condicional].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida de error de división condicional].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[Salida de error de división condicional].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\Ordenar"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Ordenar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;1"
+              description="Ordena los datos de entrada de manera ascendente o descendente cuando no es posible ordenarlos en su origen. Por ejemplo, se ordenan los datos de ventas por 'id. de cliente' antes de que se escriban en un archivo plano y se entreguen a otro departamento. Nota: no se recomienda realizar esta transformación para grandes flujos de datos."
+              name="Ordenar"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si la transformación Ordenar quita filas con valores de ordenación duplicados."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el número máximo de subprocesos que se deben usar para la ordenación."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación]"
+                  name="Entrada de ordenación">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_fechaActual]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_anio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_anio"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_trimestre]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_trimestre"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_mes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_mes"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_semana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_semana"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_diadeanio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diadeanio"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_diademes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diademes"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación].Columns[tiempo_DiaDeSemana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_DiaDeSemana"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_DiaDeSemana]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación]"
+                  isSorted="true"
+                  name="Salida de ordenación">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_anio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_anio]"
+                      name="tiempo_anio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_mes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_mes]"
+                      name="tiempo_mes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_semana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_semana]"
+                      name="tiempo_semana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_diademes]"
+                      name="tiempo_diademes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_DiaDeSemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación].Columns[tiempo_DiaDeSemana]"
+                      name="tiempo_DiaDeSemana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_DiaDeSemana]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\Ordenar 1"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Ordenar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;1"
+              description="Ordena los datos de entrada de manera ascendente o descendente cuando no es posible ordenarlos en su origen. Por ejemplo, se ordenan los datos de ventas por 'id. de cliente' antes de que se escriban en un archivo plano y se entreguen a otro departamento. Nota: no se recomienda realizar esta transformación para grandes flujos de datos."
+              name="Ordenar 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica si la transformación Ordenar quita filas con valores de ordenación duplicados."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el número máximo de subprocesos que se deben usar para la ordenación."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación]"
+                  name="Entrada de ordenación">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_SKey]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_SKey"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_SKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_fechaActual]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="tiempo_fechaActual"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_anio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_anio"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_trimestre]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_trimestre"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_mes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_mes"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_semana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_semana"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_diadeanio]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diadeanio"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_diademes]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diademes"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación].Columns[tiempo_diasemana]"
+                      cachedDataType="i4"
+                      cachedName="tiempo_diasemana"
+                      lineageId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diasemana]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica las opciones de comparación para datos de caracteres."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica el criterio de ordenación de la columna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación]"
+                  isSorted="true"
+                  name="Salida de ordenación">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_SKey]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_SKey]"
+                      name="tiempo_SKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_SKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_anio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_anio]"
+                      name="tiempo_anio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_mes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_mes]"
+                      name="tiempo_mes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_semana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_semana]"
+                      name="tiempo_semana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diademes]"
+                      name="tiempo_diademes">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diasemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación].Columns[tiempo_diasemana]"
+                      name="tiempo_diasemana">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica el identificador de linaje de la columna de entrada que está asociada a esta columna de salida."
+                          name="SortColumnId">#{Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diasemana]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Caraga dim Tiempo\stage tiempo"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origen de OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos los derechos reservados; http://www.microsoft.com/sql/support;7"
+              description="Origen de OLE DB"
+              name="stage tiempo"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Número de segundos antes de que se agote el tiempo de espera de un comando. Un valor de 0 indica un tiempo de espera infinito."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Especifica la variable que contiene el nombre del objeto de base de datos usado para abrir un conjunto de filas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Comando SQL para ejecutar."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select tiempo_fechaActual, tiempo_anio, tiempo_trimestre, tiempo_mes, tiempo_semana,
+tiempo_diadeanio, tiempo_diademes, tiempo_DiaDeSemana from stage_northwind.dbo.Stage_Tiempo</property>
+                <property
+                  dataType="System.String"
+                  description="Variable que contiene el comando SQL para ejecutar."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica la página de códigos de columna para utilizar cuando la información de página de códigos no está disponible en el origen de datos."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Fuerza el uso del valor de la propiedad DefaultCodePage al describir datos de caracteres."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica el modo utilizado para obtener acceso a la base de datos."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Asignaciones entre los parámetros del comando SQL y las variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Caraga dim Tiempo\stage tiempo.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.stage_northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.stage_northwind]"
+                  description="La conexión de tiempo de ejecución OLE DB usada para obtener acceso a la base de datos."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB]"
+                  name="Salida de origen de OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_anio]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_anio]"
+                      name="tiempo_anio"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_mes]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_mes]"
+                      name="tiempo_mes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_semana]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_semana]"
+                      name="tiempo_semana"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diademes]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_diademes]"
+                      name="tiempo_diademes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_DiaDeSemana]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversión"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_DiaDeSemana]"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].Columns[tiempo_DiaDeSemana]"
+                      name="tiempo_DiaDeSemana"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      name="tiempo_fechaActual" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_anio]"
+                      dataType="i4"
+                      name="tiempo_anio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_trimestre]"
+                      dataType="i4"
+                      name="tiempo_trimestre" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_mes]"
+                      dataType="i4"
+                      name="tiempo_mes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_semana]"
+                      dataType="i4"
+                      name="tiempo_semana" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diadeanio]"
+                      dataType="i4"
+                      name="tiempo_diadeanio" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_diademes]"
+                      dataType="i4"
+                      name="tiempo_diademes" />
+                    <externalMetadataColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB].ExternalColumns[tiempo_DiaDeSemana]"
+                      dataType="i4"
+                      name="tiempo_DiaDeSemana" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB]"
+                  isErrorOut="true"
+                  name="Salida de error de origen de OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_fechaActual]"
+                      name="tiempo_fechaActual" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_anio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_anio]"
+                      name="tiempo_anio" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_trimestre]"
+                      name="tiempo_trimestre" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_mes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_mes]"
+                      name="tiempo_mes" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_semana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_semana]"
+                      name="tiempo_semana" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diadeanio]"
+                      name="tiempo_diadeanio" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diademes]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_diademes]"
+                      name="tiempo_diademes" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_DiaDeSemana]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[tiempo_DiaDeSemana]"
+                      name="tiempo_DiaDeSemana" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de error de origen de OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[Salida de combinación de mezcla]"
+              endId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Inputs[Entrada de división condicional]"
+              name="Salida de combinación de mezcla"
+              startId="Package\Caraga dim Tiempo\Combinación de mezcla.Outputs[Salida de combinación de mezcla]" />
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[Salida de ordenación]"
+              endId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada izquierda de combinación de mezcla]"
+              name="Salida de ordenación"
+              startId="Package\Caraga dim Tiempo\Ordenar.Outputs[Salida de ordenación]" />
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[Salida de ordenación1]"
+              endId="Package\Caraga dim Tiempo\Combinación de mezcla.Inputs[Entrada derecha de combinación de mezcla]"
+              name="Salida de ordenación"
+              startId="Package\Caraga dim Tiempo\Ordenar 1.Outputs[Salida de ordenación]" />
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[Salida de origen de OLE DB]"
+              endId="Package\Caraga dim Tiempo\Ordenar.Inputs[Entrada de ordenación]"
+              name="Salida de origen de OLE DB"
+              startId="Package\Caraga dim Tiempo\stage tiempo.Outputs[Salida de origen de OLE DB]" />
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[Salida de origen de OLE DB1]"
+              endId="Package\Caraga dim Tiempo\Ordenar 1.Inputs[Entrada de ordenación]"
+              name="Salida de origen de OLE DB"
+              startId="Package\Caraga dim Tiempo\dim tiempo.Outputs[Salida de origen de OLE DB]" />
+            <path
+              refId="Package\Caraga dim Tiempo.Paths[TIEMPO_NUEVO]"
+              endId="Package\Caraga dim Tiempo\Destino de OLE DB.Inputs[Entrada de destino de OLE DB]"
+              name="TIEMPO_NUEVO"
+              startId="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO.Outputs[TIEMPO_NUEVO]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="169.6,41.6"
+          Id="Package\Caraga dim Tiempo"
+          TopLeft="414.999977325401,168.999998824795" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Caraga dim Tiempo">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="124.8,41.6"
+          Id="Package\Caraga dim Tiempo\Ordenar 1"
+          TopLeft="634.999965305131,253.933331567513" />
+        <NodeLayout
+          Size="196.8,41.6"
+          Id="Package\Caraga dim Tiempo\FILTAR TIEMPO NUEVO"
+          TopLeft="429.999976505837,415.999997107188" />
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\Caraga dim Tiempo\Destino de OLE DB"
+          TopLeft="244.999986613791,445.466663568947" />
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\Caraga dim Tiempo\dim tiempo"
+          TopLeft="709.16662791951,131.733332417276" />
+        <NodeLayout
+          Size="116.8,41.6"
+          Id="Package\Caraga dim Tiempo\Ordenar"
+          TopLeft="279.166651413673,242.666664979193" />
+        <NodeLayout
+          Size="137.6,41.6"
+          Id="Package\Caraga dim Tiempo\stage tiempo"
+          TopLeft="219.999987979731,118.733332507677" />
+        <NodeLayout
+          Size="189.6,41.6"
+          Id="Package\Caraga dim Tiempo\Combinación de mezcla"
+          TopLeft="424.999976779025,331.06666436447" />
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[TIEMPO_NUEVO]"
+          TopLeft="429.999976505837,422.966663568947">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-100.599989892046,22.5"
+              Start="0,0"
+              End="-100.599989892046,15">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-96.5999898920462,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-96.5999898920462,0"
+                    Point2="-100.599989892046,0"
+                    Point3="-100.599989892046,4" />
+                  <mssgle:LineSegment
+                    End="-100.599989892046,15" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-137.853896142046,-16.88671875,74.5078125,10.88671875"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[Salida de origen de OLE DB1]"
+          TopLeft="773.96662791951,173.333332417276">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-76.5666626143789,80.5999991502364"
+              Start="0,0"
+              End="-76.5666626143789,73.0999991502364">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.2999995751182" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.2999995751182"
+                    Point2="0,40.2999995751182"
+                    Point3="-4,40.2999995751182" />
+                  <mssgle:LineSegment
+                    End="-72.5666626143789,40.2999995751182" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-72.5666626143789,40.2999995751182"
+                    Point2="-76.5666626143789,40.2999995751182"
+                    Point3="-76.5666626143789,44.2999995751182" />
+                  <mssgle:LineSegment
+                    End="-76.5666626143789,73.0999991502364" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[Salida de origen de OLE DB]"
+          TopLeft="288.799987979731,160.333332507677">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="48.7666634339425,82.3333324715164"
+              Start="0,0"
+              End="48.7666634339425,74.8333324715164">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.1666662357582" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.1666662357582"
+                    Point2="0,41.1666662357582"
+                    Point3="4,41.1666662357582" />
+                  <mssgle:LineSegment
+                    End="44.7666634339425,41.1666662357582" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44.7666634339425,41.1666662357582"
+                    Point2="48.7666634339425,41.1666662357582"
+                    Point3="48.7666634339425,45.1666662357582" />
+                  <mssgle:LineSegment
+                    End="48.7666634339425,74.8333324715164" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[Salida de ordenación1]"
+          TopLeft="697.399965305131,295.533331567513">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-147.33332185944,35.5333327969577"
+              Start="0,0"
+              End="-147.33332185944,28.0333327969577">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.1415896390267" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.1415896390267"
+                    Point2="0,21.1415896390267"
+                    Point3="-4,21.1415896390267" />
+                  <mssgle:LineSegment
+                    End="-143.33332185944,21.1415896390267" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-143.33332185944,21.1415896390267"
+                    Point2="-147.33332185944,21.1415896390267"
+                    Point3="-147.33332185944,25.1415896390267" />
+                  <mssgle:LineSegment
+                    End="-147.33332185944,28.0333327969577" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[Salida de ordenación]"
+          TopLeft="337.566651413673,284.266664979193">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="151.966658698685,46.7999993852774"
+              Start="0,0"
+              End="151.966658698685,39.2999993852774">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.845020554755" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.845020554755"
+                    Point2="0,27.845020554755"
+                    Point3="4,27.845020554755" />
+                  <mssgle:LineSegment
+                    End="147.966658698685,27.845020554755" />
+                  <mssgle:CubicBezierSegment
+                    Point1="147.966658698685,27.845020554755"
+                    Point2="151.966658698685,27.845020554755"
+                    Point3="151.966658698685,31.845020554755" />
+                  <mssgle:LineSegment
+                    End="151.966658698685,39.2999993852774" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Caraga dim Tiempo.Paths[Salida de combinación de mezcla]"
+          TopLeft="519.799976779025,372.66666436447">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.59999972681214,43.3333327427176"
+              Start="0,0"
+              End="8.59999972681214,35.8333327427176">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.6666663713588" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.6666663713588"
+                    Point2="0,21.6666663713588"
+                    Point3="4,21.6666663713588" />
+                  <mssgle:LineSegment
+                    End="4.59999972681214,21.6666663713588" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.59999972681214,21.6666663713588"
+                    Point2="8.59999972681214,21.6666663713588"
+                    Point3="8.59999972681214,25.6666663713588" />
+                  <mssgle:LineSegment
+                    End="8.59999972681214,35.8333327427176" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Caraga dim Tiempo\Destino de OLE DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Caraga dim Tiempo\dim tiempo">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Caraga dim Tiempo\stage tiempo">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
